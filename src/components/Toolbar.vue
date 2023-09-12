@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar title="Todo" />
+  <v-toolbar title="Todo" color="primary" />
 </template>
 
 <script>
