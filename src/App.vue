@@ -1,29 +1,41 @@
 <template>
-  <div class="app">
-    <div class="app__toolbar">
+  <v-app>
+    <v-toolbar>
       <Toolbar />
-    </div>
-    <div class="app__buttons">
-      <TodoButton>Add task</TodoButton>
-      <TodoButton>Delete task</TodoButton>
-    </div>
-  </div>
+    </v-toolbar>
+    <v-container class="d-flex flex-column align-center justify-center">
+      <TodoForm />
+      <TodosList v-if="store.todos.length > 0" :todos="store.todos" />
+      <p v-else class="text-h5 font-weight-light mt-4">
+        No todos. Maybe it's time to add some?
+      </p>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
-import TodoButton from './components/TodoButton.vue';
-import Toolbar from "./components/Toolbar.vue";
+import TodoButton from "@/components/UI/buttons/TodoButton.vue";
+import Toolbar from "@/components/Toolbar.vue";
+import TodoTextField from "@/components/UI/textfields/TodoTextField.vue";
+import TodoCard from "@/components/UI/cards/TodoCard.vue";
+import TodosList from "./components/UI/lists/TodosList.vue";
+import TodoForm from "@/components/UI/forms/TodoForm.vue";
+
+import { useTodosStore } from "@/store/store";
+
 export default {
-  components: { Toolbar, TodoButton },
+  components: {
+    Toolbar,
+    TodoButton,
+    TodoTextField,
+    TodoCard,
+    TodosList,
+    TodoForm,
+  },
+  setup() {
+    const store = useTodosStore();
+
+    return { store };
+  },
 };
 </script>
-
-<style scoped>
-.app__buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  column-gap: 10px;
-  margin-top: 10px;
-}
-</style>
