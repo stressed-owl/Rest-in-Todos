@@ -1,5 +1,5 @@
 <template>
-  <v-btn variant="tonal" rounded="lg" class="todo-btn">
+  <v-btn variant="tonal" rounded="lg" color="primary" class="px-4" size="large">
     <slot></slot>
   </v-btn>
 </template>
@@ -11,7 +11,5 @@ export default {
 </script>
 
 <style scoped>
-.todo-btn {
-  text-transform: capitalize;
-}
+
 </style>
