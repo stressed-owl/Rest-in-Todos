@@ -1,38 +1,43 @@
 <template>
-  <v-dialog max-width="530" max-height="370"  @click="store.closeEditDialog">
+  <v-dialog max-width="550" max-height="400">
     <v-card>
-      <v-container >
+      <v-container>
         <v-card-text class="font-weight-bold text-h6">Edit to-do</v-card-text>
         <v-container @click.stop>
           <TodoTextField
             :label="txtFieldLabelEditTask"
             prepend-icon="mdi-pencil-outline"
             hint="Type your changes here"
-            v-model="store.editTask"
-            max-width="350"
+            v-model="todo.task"
+            max-width="500"
           />
           <TodoTextField
             :label="txtFieldLabelEditDesc"
             prepend-icon="mdi-pencil-outline"
             hint="Type your changes here"
-            v-model="store.editDescription"
-            max-width="350"
+            v-model="todo.description"
+            max-width="500"
             class="mt-4"
           />
         </v-container>
-        <v-card-actions class="mt-5 d-flex justify-end">
-          <TodoButton
-            @click="
-              store.editTodo(
-                store.todoID,
-                store.editTask,
-                store.editDescription
-              )
-            "
-            >Edit</TodoButton
+        <v-card-actions class="d-flex justify-end">
+          <v-btn
+            variant="tonal"
+            rounded="lg"
+            @click="editToDo()"
+            color="primary"
+            size="large"
           >
-          <TodoButton @click="store.isEditDialogVisible = false"
-            >Cancel</TodoButton
+            Edit</v-btn
+          >
+          <v-btn
+            variant="tonal"
+            rounded="lg"
+            @click="handleCancelEdit"
+            color="primary"
+            size="large"
+          >
+            Cancel</v-btn
           >
         </v-card-actions>
       </v-container>
@@ -43,18 +48,36 @@
 <script>
 import { useTodosStore } from "@/store/store";
 import TodoTextField from "@/components/UI/textfields/TodoTextField.vue";
-import TodoButton from "../buttons/TodoButton.vue";
 export default {
-  components: { TodoTextField, TodoButton },
-  setup() {
+  components: { TodoTextField },
+  props: {
+    todo: {
+      type: Object,
+      required: true,
+    },
+  },
+  emits: ["cancelEdit"],
+  setup(props, { emit }) {
     const store = useTodosStore();
 
     const txtFieldLabelEditTask = "Task";
     const txtFieldLabelEditDesc = "Description";
+
+    const editToDo = () => {
+      store.editTodo(props.todo.id, props.todo.task, props.todo.description);
+      handleCancelEdit();
+    };
+
+    const handleCancelEdit = () => {
+      emit("cancelEdit");
+    };
+
     return {
       store,
       txtFieldLabelEditTask,
       txtFieldLabelEditDesc,
+      editToDo,
+      handleCancelEdit,
     };
   },
 };
