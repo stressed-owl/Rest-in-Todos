@@ -20,11 +20,11 @@
       <TodoButton
         class="font-weight-light"
         prepend-icon="mdi-pencil-outline"
-        @click="store.isEditDialogVisible = true"
+        @click="(store.isEditDialogVisible = true), (store.todoID = todo.id)"
         >Edit</TodoButton
       >
       <TodoButton
-        @click="store.deleteTodo(todo.id)"
+        @click="(store.isDeleteDialogVisible = true), (store.todoID = todo.id)"
         class="font-weight-light"
         prepend-icon="mdi-delete"
         >Delete</TodoButton

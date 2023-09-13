@@ -6,10 +6,13 @@
   >
     <v-card class="pa-2">
       <v-card-text class="font-weight-bold text-h6"
-        >Are you sure you want to delete task {{ id }}?</v-card-text
+        >Are you sure you want to delete this task?</v-card-text
       >
       <v-card-actions class="mt-5 d-flex justify-end">
-        <TodoButton @click="store.deleteTodo(id)">Delete</TodoButton>
+        <TodoButton
+          @click="store.deleteTodo(store.todoID)"
+          >Delete</TodoButton
+        >
         <TodoButton @click="store.isDeleteDialogVisible = false"
           >Cancel</TodoButton
         >
@@ -23,12 +26,6 @@ import TodoButton from "@/components/UI/buttons/TodoButton.vue";
 import { useTodosStore } from "@/store/store";
 export default {
   components: { TodoButton },
-  props: {
-    id: {
-      type: Number,
-      required: true,
-    },
-  },
   setup() {
     const store = useTodosStore();
 
