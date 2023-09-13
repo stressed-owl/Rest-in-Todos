@@ -8,23 +8,21 @@ export const useTodosStore = defineStore("todos", () => {
   const task = ref("");
   const description = ref("");
   const editTask = ref("");
+  const editDescription = ref("");
 
-  const id = ref(1);
+  const todoID = ref(0);
 
   const isDeleteDialogVisible = ref(false);
   const isEditDialogVisible = ref(false);
-  const isDeleteConfirmed = ref(false);
-  const isEditTaskConfirmed = ref(false);
 
   const addTodo = () => {
-    const todo = {
-      id: id.value++,
-      task: task.value,
-      description: description.value,
-      date: new Date().toLocaleTimeString(),
-    };
-
     if (task.value.trim().length > 0) {
+      const todo = {
+        id: Date.now(),
+        task: task.value,
+        description: description.value,
+        date: new Date().toLocaleTimeString(),
+      };
       todos.value.push(todo);
     }
 
@@ -33,32 +31,44 @@ export const useTodosStore = defineStore("todos", () => {
   };
 
   const deleteTodo = (id) => {
-    console.log(id);
     todos.value = todos.value.filter((todo) => todo.id !== id);
   };
 
-  const editTodo = (id) => {
+  const editTodo = (id, editedTask, editedDesc) => {
     const todo = todos.value.find((todo) => todo.id === id);
     if (todo) {
       const updatedTodo = {
         ...todo,
-        task: editTask.value,
+        task: editedTask,
+        description: editedDesc,
       };
-      todos.value = [...todos, updatedTodo];
+      const todoIndex = todos.value.indexOf(todo);
+      todos.value[todoIndex] = updatedTodo;
+    } else {
+      console.log("No todo was found");
     }
   };
+
+  // Close edit to-do dialog
+
+  const closeEditDialog = () => {
+    isEditDialogVisible.value = false;
+    editTask.value = "";
+    editDescription.value = "";
+  }
 
   return {
     deleteTodo,
     addTodo,
     editTodo,
+    closeEditDialog,
+    todoID,
     todos,
     task,
     description,
     editTask,
+    editDescription,
     isDeleteDialogVisible,
     isEditDialogVisible,
-    isDeleteConfirmed,
-    isEditTaskConfirmed,
   };
 });
