@@ -1,8 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar>
-      <Toolbar />
-    </v-toolbar>
+    <v-toolbar title="Todo" color="primary" />
     <v-container class="d-flex flex-column align-center justify-center">
       <TodoForm />
       <TodosList v-if="store.todos.length > 0" :todos="store.todos" />
@@ -14,8 +12,6 @@
 </template>
 
 <script>
-import TodoButton from "@/components/UI/buttons/TodoButton.vue";
-import Toolbar from "@/components/Toolbar.vue";
 import TodoTextField from "@/components/UI/textfields/TodoTextField.vue";
 import TodoCard from "@/components/UI/cards/TodoCard.vue";
 import TodosList from "./components/UI/lists/TodosList.vue";
@@ -25,8 +21,6 @@ import { useTodosStore } from "@/store/store";
 
 export default {
   components: {
-    Toolbar,
-    TodoButton,
     TodoTextField,
     TodoCard,
     TodosList,
